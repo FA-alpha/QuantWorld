@@ -25,11 +25,11 @@ export default function ConsolePage() {
   const [intervalMinutes, setIntervalMinutes] = useState(60)
   
   const [agents, setAgents] = useState<AgentConfig[]>([
-    { type: 'retail', label: '散户', count: 30, template: 'retail_newbie', color: '#F85149' },
-    { type: 'institutional', label: '机构', count: 5, template: 'institution_fund', color: '#3FB950' },
-    { type: 'whale', label: '巨鲸', count: 2, template: 'whale_og', color: '#58A6FF' },
-    { type: 'analyst', label: '分析师', count: 3, template: 'analyst_technical', color: '#A371F7' },
-    { type: 'kol', label: 'KOL', count: 5, template: 'kol_influencer', color: '#D29922' },
+    { type: 'retail', label: '散户', count: 5, template: 'retail_newbie', color: '#F85149' },
+    { type: 'institutional', label: '机构', count: 2, template: 'institution_fund', color: '#3FB950' },
+    { type: 'whale', label: '巨鲸', count: 1, template: 'whale_og', color: '#58A6FF' },
+    { type: 'analyst', label: '分析师', count: 2, template: 'analyst_technical', color: '#A371F7' },
+    { type: 'kol', label: 'KOL', count: 2, template: 'kol_influencer', color: '#D29922' },
   ])
   
   const [eventInput, setEventInput] = useState<EventInput>({
@@ -52,9 +52,9 @@ export default function ConsolePage() {
     { value: 'custom', label: '自定义', example: '' },
   ]
   
-  const updateAgentCount = (type: string, delta: number) => {
+  const updateAgentCount = (type: string, value: number) => {
     setAgents(prev => prev.map(a => 
-      a.type === type ? { ...a, count: Math.max(0, a.count + delta) } : a
+      a.type === type ? { ...a, count: Math.max(0, Math.min(100, value)) } : a
     ))
   }
   
@@ -71,13 +71,23 @@ export default function ConsolePage() {
   
   const totalAgents = agents.reduce((sum, a) => sum + a.count, 0)
   
-  const startSimulation = async () => {
-    // 创建仿真
+  const startSimulation = () => {
+    // 生成唯一ID
     const simId = `sim_${Date.now().toString(36)}`
     
-    // TODO: 调用后端 API
-    // const response = await api.createSimulation({...})
+    // 将配置存储到 sessionStorage
+    const config = {
+      projectName,
+      description,
+      duration,
+      intervalMinutes,
+      agents,
+      events,
+      symbols
+    }
+    sessionStorage.setItem(`config_${simId}`, JSON.stringify(config))
     
+    // 跳转到流程页面
     navigate(`/process/${simId}`)
   }
   
@@ -177,22 +187,29 @@ export default function ConsolePage() {
                 <div key={agent.type} className="flex items-center justify-between bg-dark-bg rounded-lg p-3">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: agent.color }} />
-                    <span className="font-medium">{agent.label}</span>
+                    <span className="font-medium w-16">{agent.label}</span>
                     <span className="text-xs text-text-secondary bg-card-bg px-2 py-0.5 rounded">
                       {agent.template}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => updateAgentCount(agent.type, -1)}
-                      className="w-8 h-8 rounded bg-card-bg border border-border hover:border-accent-blue flex items-center justify-center"
+                      onClick={() => updateAgentCount(agent.type, agent.count - 1)}
+                      className="w-8 h-8 rounded bg-card-bg border border-border hover:border-accent-blue flex items-center justify-center text-lg"
                     >
-                      -
+                      −
                     </button>
-                    <span className="w-12 text-center font-mono">{agent.count}</span>
+                    <input
+                      type="number"
+                      value={agent.count}
+                      onChange={e => updateAgentCount(agent.type, parseInt(e.target.value) || 0)}
+                      className="w-16 text-center font-mono bg-card-bg border border-border rounded px-2 py-1 focus:border-accent-blue outline-none"
+                      min="0"
+                      max="100"
+                    />
                     <button
-                      onClick={() => updateAgentCount(agent.type, 1)}
-                      className="w-8 h-8 rounded bg-card-bg border border-border hover:border-accent-blue flex items-center justify-center"
+                      onClick={() => updateAgentCount(agent.type, agent.count + 1)}
+                      className="w-8 h-8 rounded bg-card-bg border border-border hover:border-accent-blue flex items-center justify-center text-lg"
                     >
                       +
                     </button>
@@ -272,7 +289,7 @@ export default function ConsolePage() {
                       </div>
                       <button
                         onClick={() => removeEvent(i)}
-                        className="text-text-secondary hover:text-accent-red"
+                        className="text-text-secondary hover:text-accent-red text-xl"
                       >
                         ×
                       </button>
@@ -331,15 +348,16 @@ export default function ConsolePage() {
                 <div key={agent.type} className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: agent.color }} />
                   <span className="text-sm flex-1">{agent.label}</span>
-                  <span className="text-sm text-text-secondary">{agent.count}</span>
-                  <div 
-                    className="h-2 rounded-full"
-                    style={{ 
-                      backgroundColor: agent.color,
-                      width: `${(agent.count / totalAgents) * 100}%`,
-                      minWidth: '20px'
-                    }}
-                  />
+                  <span className="text-sm text-text-secondary w-8 text-right">{agent.count}</span>
+                  <div className="w-24 bg-dark-bg rounded-full h-2 overflow-hidden">
+                    <div 
+                      className="h-full rounded-full transition-all"
+                      style={{ 
+                        backgroundColor: agent.color,
+                        width: `${(agent.count / Math.max(totalAgents, 1)) * 100}%`
+                      }}
+                    />
+                  </div>
                 </div>
               ))}
             </div>
@@ -349,7 +367,7 @@ export default function ConsolePage() {
           <button
             onClick={startSimulation}
             disabled={totalAgents === 0}
-            className="w-full py-4 rounded-xl bg-accent-blue text-white font-semibold hover:bg-accent-blue/80 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center gap-2"
+            className="w-full py-4 rounded-xl bg-gradient-to-r from-accent-blue to-accent-purple text-white font-semibold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center gap-2"
           >
             <Play size={20} />
             开始环境搭建
