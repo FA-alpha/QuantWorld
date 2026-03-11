@@ -273,3 +273,56 @@
 - CAUSES：决策导致市场变化
 
 详细设计见 [MEMORY_SYSTEM.md](MEMORY_SYSTEM.md)
+
+---
+
+## 11. 前端界面设计
+
+### 11.1 参考项目
+
+MiroFish Demo:
+- 首页: https://666ghj.github.io/mirofish-demo/
+- 控制台: https://666ghj.github.io/mirofish-demo/console
+- 仿真过程: https://666ghj.github.io/mirofish-demo/console/process/proj_xxx
+
+### 11.2 核心页面
+
+| 页面 | 功能 | 参考 |
+|------|------|------|
+| **首页** | 项目介绍、快速开始 | MiroFish 首页 |
+| **控制台** | 仿真配置、项目列表 | MiroFish console |
+| **仿真过程** | 智能体交互、实时更新 | MiroFish process |
+| **关系图谱** | 智能体之间的影响关系 | GraphRAG 可视化 |
+| **报告页面** | 预测结果、情绪指标 | 数据仪表盘 |
+
+### 11.3 前端技术栈
+
+- **框架**: React + TypeScript
+- **UI**: TailwindCSS + Shadcn/UI
+- **图表**: ECharts / Recharts
+- **关系图**: vis.js / cytoscape.js
+- **实时通信**: WebSocket
+- **状态管理**: Zustand / Jotai
+
+---
+
+## 12. 数据源配置
+
+### 12.1 Coinglass API
+
+已有 API Key，支持以下数据：
+
+| 接口 | 用途 |
+|------|------|
+| `/api/index/fear-greed-history` | 恐惧贪婪指数 |
+| `/api/etf/bitcoin/flow-history` | BTC ETF 资金流向 |
+| `/api/futures/liquidation/coin-list` | 清算数据 |
+| `/api/futures/funding-rate/exchange-list` | 资金费率 |
+| `/api/futures/open-interest/aggregated-history` | 未平仓合约 |
+
+### 12.2 交易所 API
+
+| 交易所 | 数据 |
+|--------|------|
+| OKX | 实时行情、K线 |
+| Binance | 实时行情、K线 |
