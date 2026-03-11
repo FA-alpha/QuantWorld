@@ -3,6 +3,7 @@ import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
 import ConsolePage from './pages/ConsolePage'
 import SimulationPage from './pages/SimulationPage'
+import ReportPage from './pages/ReportPage'
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
         <Route index element={<HomePage />} />
         <Route path="console" element={<ConsolePage />} />
         <Route path="simulation/:id" element={<SimulationPage />} />
+        <Route path="report/:id" element={<ReportPage />} />
       </Route>
     </Routes>
   )
