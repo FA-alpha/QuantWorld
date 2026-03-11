@@ -382,14 +382,56 @@ export default function SimulationProcessPage() {
             </div>
             <div className="px-5 py-4 space-y-4 max-h-[70vh] overflow-y-auto">
               <div className="grid grid-cols-2 gap-4">
-                <div><label className="text-xs text-gray-500">年龄</label><input type="number" value={editingAgent.age} onChange={e => setEditingAgent({...editingAgent, age: parseInt(e.target.value) || 0})} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
-                <div><label className="text-xs text-gray-500">性别</label><select value={editingAgent.gender} onChange={e => setEditingAgent({...editingAgent, gender: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm"><option value="男">男</option><option value="女">女</option></select></div>
-                <div><label className="text-xs text-gray-500">地区</label><input type="text" value={editingAgent.location} onChange={e => setEditingAgent({...editingAgent, location: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
-                <div><label className="text-xs text-gray-500">MBTI</label><input type="text" value={editingAgent.mbti || ''} onChange={e => setEditingAgent({...editingAgent, mbti: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
+                <div>
+                  <label className="text-xs text-gray-600 font-medium block mb-1">年龄</label>
+                  <input type="text" inputMode="numeric" value={editingAgent.age || ''} onChange={e => { const val = e.target.value.replace(/^0+/, ''); setEditingAgent({...editingAgent, age: val === '' ? 0 : parseInt(val) || 0}) }} className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-800" placeholder="25" />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-600 font-medium block mb-1">性别</label>
+                  <select value={editingAgent.gender} onChange={e => setEditingAgent({...editingAgent, gender: e.target.value})} className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-800">
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-gray-600 font-medium block mb-1">地区</label>
+                  <input type="text" value={editingAgent.location} onChange={e => setEditingAgent({...editingAgent, location: e.target.value})} className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-800" placeholder="中国" />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-600 font-medium block mb-1">MBTI</label>
+                  <select value={editingAgent.mbti || ''} onChange={e => setEditingAgent({...editingAgent, mbti: e.target.value})} className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-800">
+                    <option value="">选择...</option>
+                    <option value="INTJ">INTJ - 建筑师</option>
+                    <option value="INTP">INTP - 逻辑学家</option>
+                    <option value="ENTJ">ENTJ - 指挥官</option>
+                    <option value="ENTP">ENTP - 辩论家</option>
+                    <option value="INFJ">INFJ - 提倡者</option>
+                    <option value="INFP">INFP - 调停者</option>
+                    <option value="ENFJ">ENFJ - 主人公</option>
+                    <option value="ENFP">ENFP - 竞选者</option>
+                    <option value="ISTJ">ISTJ - 物流师</option>
+                    <option value="ISFJ">ISFJ - 守卫者</option>
+                    <option value="ESTJ">ESTJ - 总经理</option>
+                    <option value="ESFJ">ESFJ - 执政官</option>
+                    <option value="ISTP">ISTP - 鉴赏家</option>
+                    <option value="ISFP">ISFP - 探险家</option>
+                    <option value="ESTP">ESTP - 企业家</option>
+                    <option value="ESFP">ESFP - 表演者</option>
+                  </select>
+                </div>
               </div>
-              <div><label className="text-xs text-gray-500">个人简介</label><textarea value={editingAgent.bio} onChange={e => setEditingAgent({...editingAgent, bio: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm h-24 resize-none" /></div>
-              <div><label className="text-xs text-gray-500">标签 (逗号分隔)</label><input type="text" value={editingAgent.tags.join(', ')} onChange={e => setEditingAgent({...editingAgent, tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean)})} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
-              <div><label className="text-xs text-gray-500">行为模式</label><input type="text" value={editingAgent.background.behavior} onChange={e => setEditingAgent({...editingAgent, background: {...editingAgent.background, behavior: e.target.value}})} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
+              <div>
+                <label className="text-xs text-gray-600 font-medium block mb-1">个人简介</label>
+                <textarea value={editingAgent.bio} onChange={e => setEditingAgent({...editingAgent, bio: e.target.value})} className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-800 h-24 resize-none" placeholder="描述这个角色的背景和特点..." />
+              </div>
+              <div>
+                <label className="text-xs text-gray-600 font-medium block mb-1">标签 (逗号分隔)</label>
+                <input type="text" value={editingAgent.tags.join(', ')} onChange={e => setEditingAgent({...editingAgent, tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean)})} className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-800" placeholder="FOMO, 追涨杀跌, 短线交易" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-600 font-medium block mb-1">行为模式</label>
+                <input type="text" value={editingAgent.background.behavior} onChange={e => setEditingAgent({...editingAgent, background: {...editingAgent.background, behavior: e.target.value}})} className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-800" placeholder="描述决策风格和行为特点..." />
+              </div>
             </div>
           </div>
         </div>
