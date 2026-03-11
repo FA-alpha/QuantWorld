@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Download, FileText, TrendingUp, Users, Brain, Network } from 'lucide-react'
-import { FearGreedGauge, FundFlowChart, AgentSentimentPie, PositionChart } from '../components/Charts'
+import { AgentSentimentPie, PositionChart } from '../components/Charts'
 import AgentGraph from '../components/AgentGraph'
 
 interface SimulationReport {

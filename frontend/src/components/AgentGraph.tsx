@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Network } from 'vis-network'
+import { Network, Options } from 'vis-network'
 
 interface GraphNode {
   id: string
@@ -45,7 +45,7 @@ export default function AgentGraph({ nodes, edges, height = 400 }: AgentGraphPro
       }))
     }
     
-    const options = {
+    const options: Options = {
       nodes: {
         shape: 'dot',
         borderWidth: 2,
@@ -53,9 +53,7 @@ export default function AgentGraph({ nodes, edges, height = 400 }: AgentGraphPro
       },
       edges: {
         width: 1,
-        smooth: {
-          type: 'continuous'
-        }
+        smooth: false
       },
       physics: {
         stabilization: false,
@@ -112,7 +110,6 @@ export default function AgentGraph({ nodes, edges, height = 400 }: AgentGraphPro
         </div>
       </div>
       
-      {/* 选中节点信息 */}
       {selectedNode && (
         <div className="absolute bottom-4 right-4 bg-card-bg/90 rounded-lg p-3 text-sm">
           <div className="font-semibold">Agent: {selectedNode}</div>

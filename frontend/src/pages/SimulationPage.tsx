@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { Activity, Clock, Pause, Play, Users, Network } from 'lucide-react'
+import { Clock, Pause, Play, Users, Network } from 'lucide-react'
 import AgentGraph from '../components/AgentGraph'
 import MarketPanel from '../components/MarketPanel'
 
@@ -29,7 +29,7 @@ export default function SimulationPage() {
   const logRef = useRef<HTMLDivElement>(null)
   
   // 模拟智能体节点数据
-  const [graphData, setGraphData] = useState({
+  const [graphData] = useState({
     nodes: [
       { id: 'retail_1', label: 'Retail_1', group: 'retail_trader', color: '#F85149', size: 10 },
       { id: 'retail_2', label: 'Retail_2', group: 'retail_trader', color: '#F85149', size: 10 },

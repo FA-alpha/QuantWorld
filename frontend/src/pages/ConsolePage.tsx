@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Play, Plus, Settings, Users } from 'lucide-react'
+import { Play, Settings, Users } from 'lucide-react'
 
 interface SimConfig {
   name: string
