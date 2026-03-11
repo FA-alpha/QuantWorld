@@ -1,44 +1,73 @@
 # QuantWorld
 
-基于多智能体技术的加密货币/美股交易预测仿真系统
+🌐 **多智能体加密货币市场仿真系统**
 
-## 🎯 项目概述
+基于 LLM 的市场预测与分析平台，通过多种类型的智能体协同推演市场走势。
 
-QuantWorld 是一个利用多智能体（Multi-Agent）技术构建的交易市场仿真系统。通过模拟真实市场中的各类参与者行为，预测市场情绪演化和价格趋势。
-
-### 核心理念
-
-- **群体智能涌现**：不是单个 AI 预测，而是通过多个智能体交互产生涌现现象
-- **行为仿真**：模拟散户、机构、量化基金等不同角色的交易行为
-- **情绪传导**：模拟信息在市场参与者之间的传播和情绪演化
+[![GitHub](https://img.shields.io/badge/GitHub-FA--alpha/QuantWorld-blue)](https://github.com/FA-alpha/QuantWorld)
 
 ---
 
-## 📋 需求文档
+## ✨ 功能特点
 
-详细需求请查看 [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md)
+### 🤖 多智能体系统
+- **散户 (Retail)** - 情绪驱动，追涨杀跌
+- **机构 (Institutional)** - 理性分析，风险控制
+- **巨鲸 (Whale)** - 信息灵通，战略布局
+- **分析师 (Analyst)** - 发布研报，影响市场
+- **KOL** - 社交喊单，带动情绪
 
----
+### 🧠 GraphRAG 记忆系统
+- 时序图谱存储
+- 智能体影响传播
+- 因果链追溯
+- 市场叙事聚合
 
-## 🏗️ 技术架构
+### 📊 实时数据接入
+- **Coinglass** - 恐惧贪婪/资金费率/清算/OI/ETF
+- **Web Search** - 实时新闻
+- **支持币种** - BTC, ETH, SOL, DOGE, XRP, ADA, BCH
 
-详细架构请查看 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+### 🎨 可视化界面
+- 仿真控制台
+- 智能体关系图谱
+- 实时事件日志
+- 仿真报告导出
 
 ---
 
 ## 🚀 快速开始
 
+### 环境要求
+- Python 3.12+
+- Node.js 18+
+- (可选) Docker
+
+### 安装
+
 ```bash
-# 安装依赖
-pip install -r requirements.txt
+# 克隆仓库
+git clone https://github.com/FA-alpha/QuantWorld.git
+cd QuantWorld
 
 # 配置环境变量
 cp .env.example .env
-# 编辑 .env 填入 API Key
+# 编辑 .env 填入 API Keys
 
-# 启动仿真
-python main.py
+# 启动
+./run.sh
 ```
+
+### Docker 启动
+
+```bash
+docker-compose up -d
+```
+
+访问:
+- 前端: http://localhost:3000
+- API: http://localhost:8000
+- API 文档: http://localhost:8000/docs
 
 ---
 
@@ -46,47 +75,93 @@ python main.py
 
 ```
 QuantWorld/
-├── README.md                 # 项目说明
-├── docs/                     # 文档目录
-│   ├── REQUIREMENTS.md       # 需求文档
-│   ├── ARCHITECTURE.md       # 架构设计
-│   └── AGENT_DESIGN.md       # 智能体设计
-├── agents/                   # 智能体模块
-│   ├── base.py               # 基类
-│   ├── retail.py             # 散户智能体
-│   ├── institution.py        # 机构智能体
-│   ├── quant.py              # 量化智能体
-│   ├── whale.py              # 巨鲸智能体
-│   └── kol.py                # KOL 智能体
-├── market/                   # 市场模块
-│   ├── engine.py             # 撮合引擎
-│   ├── orderbook.py          # 订单簿
-│   └── price.py              # 价格计算
-├── data/                     # 数据模块
-│   ├── fetcher.py            # 数据获取
-│   └── feeds.py              # 数据源
-├── config/                   # 配置
-├── utils/                    # 工具函数
-├── tests/                    # 测试
-├── requirements.txt          # 依赖
-└── main.py                   # 入口
+├── backend/
+│   ├── agents/           # 智能体定义
+│   │   ├── base.py       # 基类
+│   │   ├── trader.py     # 交易者
+│   │   └── influencer.py # 影响者
+│   ├── services/
+│   │   ├── coinglass.py  # 数据服务
+│   │   ├── simulation.py # 仿真引擎
+│   │   ├── memory.py     # GraphRAG
+│   │   └── llm.py        # LLM 服务
+│   └── api/
+│       ├── main.py       # FastAPI
+│       └── routes.py     # API 路由
+├── frontend/
+│   ├── src/
+│   │   ├── components/   # UI 组件
+│   │   ├── pages/        # 页面
+│   │   ├── hooks/        # React Hooks
+│   │   └── services/     # API 客户端
+│   └── package.json
+├── docs/
+│   ├── REQUIREMENTS.md   # 需求文档
+│   ├── ARCHITECTURE.md   # 架构文档
+│   └── AGENT_DESIGN.md   # 智能体设计
+├── Dockerfile
+├── docker-compose.yml
+└── run.sh
 ```
 
 ---
 
-## 📊 开发进度
+## 🔧 配置
 
-| 模块 | 状态 | 说明 |
+### 环境变量
+
+| 变量 | 说明 | 必需 |
 |------|------|------|
-| 需求文档 | 🔄 进行中 | 待确认 |
-| 架构设计 | 📝 待开始 | - |
-| 智能体框架 | 📝 待开始 | - |
-| 市场引擎 | 📝 待开始 | - |
-| 数据接入 | 📝 待开始 | - |
-| 前端界面 | 📝 待开始 | - |
+| `COINGLASS_API_KEY` | Coinglass API Key | ✅ |
+| `OPENROUTER_API_KEY` | OpenRouter API Key | 可选 |
 
 ---
 
-## 📝 License
+## 📖 API 文档
+
+### REST API
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `/api/health` | 健康检查 |
+| POST | `/api/simulations` | 创建仿真 |
+| GET | `/api/simulations` | 列表 |
+| POST | `/api/simulations/{id}/start` | 启动 |
+| POST | `/api/simulations/{id}/stop` | 停止 |
+| GET | `/api/simulations/{id}/agents` | 智能体列表 |
+| GET | `/api/simulations/{id}/graph` | 关系图谱 |
+| GET | `/api/market/snapshot` | 市场快照 |
+
+### WebSocket
+
+```
+ws://localhost:8000/ws/simulation/{sim_id}
+```
+
+---
+
+## 📊 仿真流程
+
+```
+1. 配置仿真参数（时长、智能体数量、币种）
+2. 系统初始化智能体和记忆图谱
+3. 每个时间步 (1h):
+   a. 获取市场数据 (Coinglass)
+   b. 智能体感知 → 决策 → 行动
+   c. 影响传播 (分析师→散户, KOL→散户)
+   d. 记录到 GraphRAG
+4. 生成仿真报告
+```
+
+---
+
+## 📜 License
 
 MIT
+
+---
+
+## 🙏 致谢
+
+- [MiroFish](https://github.com/666ghj/MiroFish) - 界面参考
+- [Coinglass](https://www.coinglass.com/) - 数据接口
