@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Check, Circle, RefreshCw, ChevronRight, X } from 'lucide-react'
+import { Check, Circle, RefreshCw, ChevronRight } from 'lucide-react'
 import ForceGraph2D from 'react-force-graph-2d'
 
 type StepStatus = 'pending' | 'running' | 'completed'
@@ -657,76 +657,116 @@ export default function SimulationProcessPage() {
         </div>
       </div>
       
-      {/* Agent Detail Modal */}
+      {/* Agent Detail Modal - MiroFish 风格 */}
       {selectedAgent && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setSelectedAgent(null)}>
-          <div className="bg-[#161b22] rounded-xl w-[500px] max-h-[80vh] overflow-y-auto border border-[#30363d]" onClick={e => e.stopPropagation()}>
-            <div className="p-6 border-b border-[#30363d] flex items-center justify-between">
-              <div>
-                <h2 className="text-xl font-bold text-[#e6edf3]">{selectedAgent.name}</h2>
-                <span className="text-sm px-2 py-0.5 rounded" style={{ 
-                  backgroundColor: `${typeColors[selectedAgent.type]}20`,
-                  color: typeColors[selectedAgent.type]
-                }}>@{selectedAgent.typeLabel}</span>
+        <div className="fixed inset-0 bg-black/50 flex items-start justify-center pt-16 z-50" onClick={() => setSelectedAgent(null)}>
+          <div 
+            className="bg-white rounded-lg w-[420px] shadow-xl border border-[#d0d7de]" 
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="px-5 py-4 border-b border-[#d0d7de] flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-[#24292f]">Node Details</h3>
+              <div className="flex items-center gap-2">
+                <span 
+                  className="px-3 py-1 rounded text-sm font-medium text-white"
+                  style={{ backgroundColor: typeColors[selectedAgent.type] || '#8b949e' }}
+                >
+                  {selectedAgent.typeLabel}
+                </span>
+                <button 
+                  onClick={() => setSelectedAgent(null)} 
+                  className="text-[#57606a] hover:text-[#24292f] text-xl leading-none"
+                >
+                  ×
+                </button>
               </div>
-              <button onClick={() => setSelectedAgent(null)} className="text-[#8b949e] hover:text-[#e6edf3]">
-                <X size={24} />
-              </button>
             </div>
             
-            <div className="p-6 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-[#0d1117] rounded-lg p-3">
-                  <div className="text-xs text-[#8b949e]">表观年龄</div>
-                  <div className="text-lg font-semibold text-[#e6edf3]">{selectedAgent.age} 岁</div>
+            {/* Content */}
+            <div className="px-5 py-4 space-y-4 max-h-[70vh] overflow-y-auto">
+              {/* Basic Info */}
+              <div className="space-y-3">
+                <div className="flex">
+                  <span className="text-[#57606a] w-24 text-sm">Name:</span>
+                  <span className="text-[#24292f] font-medium">{selectedAgent.name}</span>
                 </div>
-                <div className="bg-[#0d1117] rounded-lg p-3">
-                  <div className="text-xs text-[#8b949e]">表观性别</div>
-                  <div className="text-lg font-semibold text-[#e6edf3]">{selectedAgent.gender === '男' ? '男性' : '女性'}</div>
+                <div className="flex">
+                  <span className="text-[#57606a] w-24 text-sm">ID:</span>
+                  <span className="text-[#24292f] font-mono text-sm">{selectedAgent.id}</span>
                 </div>
-                <div className="bg-[#0d1117] rounded-lg p-3">
-                  <div className="text-xs text-[#8b949e]">国家/地区</div>
-                  <div className="text-lg font-semibold text-[#e6edf3]">{selectedAgent.location}</div>
-                </div>
-                <div className="bg-[#0d1117] rounded-lg p-3">
-                  <div className="text-xs text-[#8b949e]">表观 MBTI</div>
-                  <div className="text-lg font-semibold text-[#3fb950]">{selectedAgent.mbti || 'N/A'}</div>
+                <div className="flex">
+                  <span className="text-[#57606a] w-24 text-sm">Created:</span>
+                  <span className="text-[#24292f] text-sm">{new Date().toLocaleString()}</span>
                 </div>
               </div>
               
+              {/* Properties */}
               <div>
-                <div className="text-xs text-[#8b949e] mb-2">个人简介</div>
-                <p className="bg-[#0d1117] rounded-lg p-3 text-sm text-[#e6edf3]">{selectedAgent.bio}</p>
+                <div className="text-[#57606a] text-sm font-medium mb-2">Properties:</div>
+                <div className="bg-[#f6f8fa] rounded-lg p-3 space-y-2 text-sm">
+                  <div className="flex">
+                    <span className="text-[#57606a] w-28">age:</span>
+                    <span className="text-[#24292f]">{selectedAgent.age} 岁</span>
+                  </div>
+                  <div className="flex">
+                    <span className="text-[#57606a] w-28">gender:</span>
+                    <span className="text-[#24292f]">{selectedAgent.gender}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="text-[#57606a] w-28">location:</span>
+                    <span className="text-[#24292f]">{selectedAgent.location}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="text-[#57606a] w-28">mbti:</span>
+                    <span className="text-[#24292f] font-medium text-[#238636]">{selectedAgent.mbti || 'N/A'}</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-[#57606a] w-28 shrink-0">behavior:</span>
+                    <span className="text-[#24292f]">{selectedAgent.background.behavior}</span>
+                  </div>
+                </div>
               </div>
               
+              {/* Summary */}
               <div>
-                <div className="text-xs text-[#8b949e] mb-2">关注话题</div>
+                <div className="text-[#57606a] text-sm font-medium mb-2">Summary:</div>
+                <p className="text-[#24292f] text-sm leading-relaxed bg-[#f6f8fa] rounded-lg p-3">
+                  {selectedAgent.bio}
+                </p>
+              </div>
+              
+              {/* Background */}
+              <div>
+                <div className="text-[#57606a] text-sm font-medium mb-2">Background:</div>
+                <div className="bg-[#f6f8fa] rounded-lg p-3 space-y-2 text-sm">
+                  <div className="flex items-start">
+                    <span className="text-[#57606a] w-28 shrink-0">experience:</span>
+                    <span className="text-[#24292f]">{selectedAgent.background.experience}</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-[#57606a] w-28 shrink-0">memory:</span>
+                    <span className="text-[#24292f]">{selectedAgent.background.memory}</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-[#57606a] w-28 shrink-0">social_network:</span>
+                    <span className="text-[#24292f]">{selectedAgent.background.socialNetwork}</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Labels */}
+              <div>
+                <div className="text-[#57606a] text-sm font-medium mb-2">Labels:</div>
                 <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 rounded-full text-sm border border-[#d0d7de] text-[#24292f] bg-white">
+                    {selectedAgent.typeLabel}
+                  </span>
                   {selectedAgent.tags.map(tag => (
-                    <span key={tag} className="text-sm text-[#58a6ff] bg-[#1f6feb]/10 px-3 py-1 rounded">{tag}</span>
+                    <span key={tag} className="px-3 py-1 rounded-full text-sm border border-[#d0d7de] text-[#57606a] bg-white">
+                      {tag}
+                    </span>
                   ))}
-                </div>
-              </div>
-              
-              <div>
-                <div className="text-xs text-[#8b949e] mb-2">详细人设背景</div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-[#0d1117] rounded-lg p-3">
-                    <div className="text-sm font-semibold text-[#e6edf3] mb-1">事件全景经历</div>
-                    <div className="text-xs text-[#8b949e]">{selectedAgent.background.experience}</div>
-                  </div>
-                  <div className="bg-[#0d1117] rounded-lg p-3">
-                    <div className="text-sm font-semibold text-[#e6edf3] mb-1">行为模式简写</div>
-                    <div className="text-xs text-[#8b949e]">{selectedAgent.background.behavior}</div>
-                  </div>
-                  <div className="bg-[#0d1117] rounded-lg p-3">
-                    <div className="text-sm font-semibold text-[#e6edf3] mb-1">独特记忆印记</div>
-                    <div className="text-xs text-[#8b949e]">{selectedAgent.background.memory}</div>
-                  </div>
-                  <div className="bg-[#0d1117] rounded-lg p-3">
-                    <div className="text-sm font-semibold text-[#e6edf3] mb-1">社会关系网络</div>
-                    <div className="text-xs text-[#8b949e]">{selectedAgent.background.socialNetwork}</div>
-                  </div>
                 </div>
               </div>
             </div>
