@@ -12,11 +12,11 @@ export default function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="console" element={<ConsolePage />} />
-        <Route path="simulation/:id" element={<SimulationPage />} />
         <Route path="report/:id" element={<ReportPage />} />
       </Route>
       {/* 全屏页面（不使用 Layout） */}
       <Route path="/process/:id" element={<SimulationProcessPage />} />
+      <Route path="/simulation/:id" element={<SimulationPage />} />
     </Routes>
   )
 }
